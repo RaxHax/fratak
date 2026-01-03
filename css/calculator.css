@@ -1,0 +1,296 @@
+﻿:root {
+    --brand-blue: #3b82f6;
+    --brand-neon: #00f2ff;
+    --brand-purple: #8b5cf6;
+    --brand-green: #10b981;
+    --bg-dark: #0f172a;
+    --card-bg: rgba(15, 23, 42, 0.7);
+    --border-glass: rgba(255, 255, 255, 0.1);
+}
+
+.ft-calculator {
+    font-family: 'Inter', 'Archivo', sans-serif;
+    color: #f1f5f9;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.input-field {
+    transition: all 0.2s ease-in-out;
+}
+
+.input-field:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Range Slider Styles */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    border-radius: 4px;
+    background: #334155;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    border: 3px solid white;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    border: 3px solid white;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Card Styles */
+.summary-card {
+    transition: all 0.2s ease-in-out;
+}
+
+.summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Tab Styles */
+.tab-btn {
+    transition: all 0.15s ease;
+}
+
+.tab-btn.active {
+    background: #3b82f6;
+    color: white;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+}
+
+/* Section Card Animation */
+.section-card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Metric Card */
+.metric-card {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+/* Progress Bar Animation */
+.progress-bar-fill {
+    transition: width 1s ease-out;
+}
+
+/* Glassmorphism & Cards */
+.magic-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+}
+
+.section-card {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+/* Tab Buttons */
+.tab-btn {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-btn.active {
+    background: var(--brand-blue);
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Specific Colors */
+.text-brand-neon {
+    color: var(--brand-neon);
+}
+
+.text-brand-purple {
+    color: var(--brand-purple);
+}
+
+.text-brand-blue {
+    color: var(--brand-blue);
+}
+
+.text-brand-green {
+    color: var(--brand-green);
+}
+
+.bg-brand-neon {
+    background-color: var(--brand-neon);
+}
+
+.bg-brand-purple {
+    background-color: var(--brand-purple);
+}
+
+.bg-brand-blue {
+    background-color: var(--brand-blue);
+}
+
+.bg-brand-green {
+    background-color: var(--brand-green);
+}
+
+.border-brand-neon {
+    border-color: var(--brand-neon);
+}
+
+.border-brand-purple {
+    border-color: var(--brand-purple);
+}
+
+.border-brand-blue {
+    border-color: var(--brand-blue);
+}
+
+.border-brand-green {
+    border-color: var(--brand-green);
+}
+
+/* Range Slider Accent */
+.accent-brand-neon {
+    accent-color: var(--brand-neon) !important;
+}
+
+/* Custom Scrollbar for dark theme */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Chart Containers */
+.chart-container {
+    position: relative;
+    height: 350px;
+    width: 100%;
+}
+
+.chart-container-large {
+    position: relative;
+    height: 450px;
+    width: 100%;
+}
+
+/* Timeline Styles */
+.timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: white;
+}
+
+.dark .timeline-dot {
+    background: #1e293b;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+    }
+}
+
+/* Dashboard calculator input styling */
+.ft-calculator input[type="text"],
+.ft-calculator input[type="number"],
+.ft-calculator input[type="email"],
+.ft-calculator input[type="tel"],
+.ft-calculator input[type="password"],
+.ft-calculator select,
+.ft-calculator textarea {
+    background-color: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    color: #e2e8f0;
+}
+
+.ft-calculator input[type="text"]::placeholder,
+.ft-calculator input[type="number"]::placeholder,
+.ft-calculator input[type="email"]::placeholder,
+.ft-calculator input[type="tel"]::placeholder,
+.ft-calculator input[type="password"]::placeholder,
+.ft-calculator textarea::placeholder {
+    color: #94a3b8;
+}
+
+.ft-calculator input[readonly] {
+    background-color: rgba(15, 23, 42, 0.45);
+    color: #93c5fd;
+}
+
+.ft-calculator select option {
+    background-color: #0f172a;
+    color: #e2e8f0;
+}

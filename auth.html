@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html lang="is">
+
+<head>
+  <meta charset="utf-8">
+  <title>Aðgangur - FRAMMTAK</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/shitboxs-ultra-awesome-site.webflow.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script
+    type="text/javascript">WebFont.load({ google: { families: ["PT Sans:400,400italic,700,700italic", "Archivo:regular,500,600,700"] } });</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Archivo', 'sans-serif'],
+            display: ['Clash Display', 'PT Sans', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              base: '#050505',
+              surface: '#0A0A0A',
+              blue: '#2d29ec',
+              neon: '#38bdf8',
+              purple: '#c084fc',
+              green: '#4ade80',
+              gray: '#1f1f1f'
+            }
+          },
+          boxShadow: {
+            'glow-blue': '0 0 20px rgba(45, 41, 236, 0.5)',
+            'glow-neon': '0 0 20px rgba(56, 189, 248, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+    }
+
+    .ft-input {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .ft-input:focus {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: #38bdf8;
+      outline: none;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+    }
+
+    .ft-glass {
+      background: rgba(10, 10, 10, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .ft-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .ft-orb-blue {
+      background: radial-gradient(circle, #2d29ec 0%, transparent 70%);
+    }
+
+    .ft-orb-neon {
+      background: radial-gradient(circle, #38bdf8 0%, transparent 70%);
+    }
+
+    .auth-tab.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+
+<body class="ft-page relative min-h-screen flex items-center justify-center overflow-hidden">
+
+  <!-- Background Orbs -->
+  <div class="ft-orb ft-orb-blue w-[600px] h-[600px] top-[-20%] right-[-10%] animate-pulse duration-[10000ms]"></div>
+  <div class="ft-orb ft-orb-neon w-[500px] h-[500px] bottom-[-20%] left-[-10%] animate-pulse duration-[8000ms]"></div>
+
+  <main class="relative z-10 w-full max-w-6xl grid lg:grid-cols-2 gap-12 p-6 items-center">
+
+    <!-- Left Section: Branding -->
+    <section class="hidden lg:block space-y-8">
+      <a href="index.html"
+        class="inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.2em] text-slate-400 hover:text-white transition group">
+        <span
+          class="h-2 w-2 rounded-full bg-brand-blue group-hover:bg-brand-neon transition shadow-[0_0_10px_rgba(45,41,236,0.8)]"></span>
+        Til baka á forsíðu
+      </a>
+
+      <h1 class="text-6xl font-bold leading-tight">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">Framtíðin</span> <br>
+        er bara einum <br>
+        <span class="text-brand-neon">smell</span> í burtu.
+      </h1>
+
+      <p class="text-slate-400 text-lg max-w-md leading-relaxed">
+        Stjórnaðu fjármálunum þínum af nákvæmni. Gervigreindin okkar greinir, flokkar og hjálpar þér að ná markmiðum
+        þínum hraðar.
+      </p>
+
+      <div class="flex gap-4 pt-4">
+        <div class="flex -space-x-4">
+          <div
+            class="w-10 h-10 rounded-full border-2 border-black bg-slate-800 flex items-center justify-center text-xs">
+            🚀</div>
+          <div
+            class="w-10 h-10 rounded-full border-2 border-black bg-slate-700 flex items-center justify-center text-xs">
+            💸</div>
+          <div
+            class="w-10 h-10 rounded-full border-2 border-black bg-slate-600 flex items-center justify-center text-xs">
+            📈</div>
+        </div>
+        <div class="flex flex-col justify-center text-xs text-slate-300">
+          <span class="font-bold text-white">100+ Notendur</span>
+          <span>búnir að skrá sig í dag</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Section: Auth Card -->
+    <section class="w-full max-w-md mx-auto">
+      <div class="ft-glass rounded-3xl p-8 md:p-10 relative overflow-hidden">
+
+        <!-- Mobile Back Link -->
+        <a href="index.html" class="lg:hidden absolute top-6 right-6 text-slate-500 hover:text-white transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </a>
+
+        <!-- Header -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-white mb-1">Velkomin/n</h2>
+          <p class="text-slate-400 text-sm">Skráðu þig inn til að halda áfram.</p>
+        </div>
+
+        <!-- Warning / Alert Box -->
+        <div id="auth-alert" class="hidden mb-6 p-4 rounded-xl border text-sm font-medium flex items-start gap-3">
+          <!-- JS fills this -->
+        </div>
+
+        <!-- Social Auth (Placeholder if needed future) -->
+        <!-- 
+        <button class="w-full py-3 rounded-xl bg-white text-black font-bold text-sm mb-6 flex items-center justify-center gap-2 hover:bg-slate-200 transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">...</svg>
+          Haltu áfram með Google
+        </button> 
+        <div class="relative mb-6 text-center">
+          <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/10"></div></div>
+          <span class="relative bg-black px-2 text-xs text-slate-500 uppercase">eða</span>
+        </div>
+        -->
+
+        <!-- Tabs -->
+        <div class="flex p-1 bg-white/5 rounded-xl mb-6">
+          <button
+            class="auth-tab flex-1 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition"
+            data-mode="signin">
+            Innskráning
+          </button>
+          <button
+            class="auth-tab flex-1 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition"
+            data-mode="signup">
+            Stofna aðgang
+          </button>
+        </div>
+
+        <!-- Forms -->
+
+        <!-- Sign In Form -->
+        <form id="signin-form" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Netfang</label>
+            <input type="email" id="signin-email" required
+              class="ft-input w-full px-4 py-3.5 rounded-xl text-sm text-white placeholder-slate-600 focus:ring-2 focus:ring-brand-neon focus:border-transparent"
+              placeholder="name@example.com">
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Lykilorð</label>
+              <button type="button" class="text-xs text-brand-neon hover:text-white transition auth-tab"
+                data-mode="forgot">Gleymt?</button>
+            </div>
+            <input type="password" id="signin-password" required
+              class="ft-input w-full px-4 py-3.5 rounded-xl text-sm text-white placeholder-slate-600 focus:ring-2 focus:ring-brand-neon focus:border-transparent"
+              placeholder="••••••••">
+          </div>
+          <button type="submit"
+            class="w-full bg-brand-neon text-black font-bold py-4 rounded-xl uppercase tracking-wider text-xs shadow-glow-neon hover:scale-[1.02] transition-transform duration-200">
+            Skrá inn
+          </button>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form id="signup-form" class="hidden space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Fullt nafn</label>
+            <input type="text" id="signup-name"
+              class="ft-input w-full px-4 py-3.5 rounded-xl text-sm text-white placeholder-slate-600"
+              placeholder="Jón Jónsson">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Netfang</label>
+            <input type="email" id="signup-email" required
+              class="ft-input w-full px-4 py-3.5 rounded-xl text-sm text-white placeholder-slate-600"
+              placeholder="name@example.com">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Lykilorð</label>
+            <input type="password" id="signup-password" required
+              class="ft-input w-full px-4 py-3.5 rounded-xl text-sm text-white placeholder-slate-600"
+              placeholder="A.m.k. 8 stafir">
+          </div>
+          <button type="submit"
+            class="w-full bg-brand-blue text-white font-bold py-4 rounded-xl uppercase tracking-wider text-xs shadow-glow-blue hover:scale-[1.02] transition-transform duration-200">
+            Stofna aðgang
+          </button>
+        </form>
+
+        <!-- Forgot Password Form -->
+        <form id="forgot-form" class="hidden space-y-4">
+          <div class="text-center mb-4">
+            <div
+              class="w-12 h-12 bg-brand-neon/10 rounded-full flex items-center justify-center mx-auto mb-3 text-brand-neon">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+              </svg>
+            </div>
+            <p class="text-xs text-slate-400">Sláðu inn netfangið þitt og við sendum þér leiðbeiningar til að
+              endurstilla lykilorðið.</p>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Netfang</label>
+            <input type="email" id="forgot-email" required
+              class="ft-input w-full px-4 py-3.5 rounded-xl text-sm text-white placeholder-slate-600"
+              placeholder="name@example.com">
+          </div>
+          <button type="submit"
+            class="w-full bg-white text-black font-bold py-4 rounded-xl uppercase tracking-wider text-xs hover:bg-slate-200 transition">
+            Senda hlekk
+          </button>
+          <button type="button" class="w-full text-xs text-slate-500 hover:text-white transition auth-tab"
+            data-mode="signin">
+            Til baka í innskráningu
+          </button>
+        </form>
+
+        <!-- Reset Password Form -->
+        <form id="reset-form" class="hidden space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nýtt lykilorð</label>
+            <input type="password" id="reset-password" required
+              class="ft-input w-full px-4 py-3.5 rounded-xl text-sm text-white placeholder-slate-600"
+              placeholder="*****">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Staðfesta
+              lykilorð</label>
+            <input type="password" id="reset-password-confirm" required
+              class="ft-input w-full px-4 py-3.5 rounded-xl text-sm text-white placeholder-slate-600"
+              placeholder="*****">
+          </div>
+          <button type="submit"
+            class="w-full bg-brand-green text-black font-bold py-4 rounded-xl uppercase tracking-wider text-xs shadow-[0_0_20px_rgba(74,222,128,0.4)] hover:scale-[1.02] transition-transform duration-200">
+            Uppfæra lykilorð
+          </button>
+        </form>
+
+      </div>
+
+      <div class="mt-8 text-center text-[10px] text-slate-600">
+        By continuing, you agree to our <a href="#" class="underline hover:text-slate-400">Terms of Service</a> and <a
+          href="#" class="underline hover:text-slate-400">Privacy Policy</a>.
+      </div>
+
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+
+</body>
+
+</html>

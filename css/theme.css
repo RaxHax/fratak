@@ -1,0 +1,112 @@
+﻿:root {
+  --ft-bg: #050505;
+  --ft-surface: rgba(8, 8, 16, 0.92);
+  --ft-surface-soft: rgba(255, 255, 255, 0.03);
+  --ft-border: rgba(255, 255, 255, 0.08);
+  --ft-blue: #2d29ec;
+  --ft-neon-blue: #38bdf8;
+  --ft-neon-purple: #c084fc;
+  --ft-neon-green: #4ade80;
+  --ft-neon-gold: #facc15;
+  --ft-text: #e2e8f0;
+  --ft-text-muted: #94a3b8;
+}
+
+body.ft-page {
+  background-color: var(--ft-bg);
+  color: var(--ft-text);
+  font-family: "Archivo", sans-serif;
+  min-height: 100vh;
+}
+
+.ft-heading {
+  font-family: "Clash Display", "PT Sans", sans-serif;
+}
+
+.ft-glass {
+  background: var(--ft-surface);
+  backdrop-filter: blur(48px);
+  -webkit-backdrop-filter: blur(48px);
+  border: 1px solid var(--ft-border);
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
+}
+
+.ft-card {
+  background: var(--ft-surface-soft);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ft-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 40px -30px rgba(0, 0, 0, 0.8);
+}
+
+.ft-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--ft-text);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ft-input:focus {
+  border-color: var(--ft-neon-blue);
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ft-gradient-text {
+  background: linear-gradient(120deg, var(--ft-neon-blue), var(--ft-neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ft-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(140px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.ft-orb-blue {
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, rgba(56, 189, 248, 0) 70%);
+}
+
+.ft-orb-purple {
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.35) 0%, rgba(192, 132, 252, 0) 70%);
+}
+
+.ft-orb-indigo {
+  background: radial-gradient(circle, rgba(45, 41, 236, 0.35) 0%, rgba(45, 41, 236, 0) 70%);
+}
+
+@keyframes ft-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ft-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.ft-animate-up {
+  animation: ft-fade-up 0.6s ease both;
+}
+
+.ft-animate-in {
+  animation: ft-fade-in 0.5s ease both;
+}
+

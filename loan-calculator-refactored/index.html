@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="is" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Íslenskur Íbúðalánareiknir Pro+</title>
+    <meta name="description" content="Ítarlegur íbúðalánareiknir með leigutekjum, fjárfestingargreiningu og sjóðstreymisútreikningum.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="antialiased bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200 transition-colors duration-300">
+    <div class="container mx-auto p-4 md:p-6 max-w-[1600px]">
+        
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex gap-2 no-print">
+                    <button id="darkModeToggle" class="p-2 rounded-lg bg-white dark:bg-slate-800 shadow hover:shadow-md transition" title="Skipta um þema">
+                        <svg id="sunIcon" class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+                        <svg id="moonIcon" class="w-5 h-5 dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                    </button>
+                </div>
+                <div class="flex gap-2 no-print">
+                    <button id="exportCSV" class="px-3 py-2 text-sm rounded-lg bg-white dark:bg-slate-800 shadow hover:shadow-md transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        CSV
+                    </button>
+                    <button onclick="window.print()" class="px-3 py-2 text-sm rounded-lg bg-white dark:bg-slate-800 shadow hover:shadow-md transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                        Prenta
+                    </button>
+                </div>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white">Íbúðalánareiknir Pro+</h1>
+            <p class="mt-2 text-slate-600 dark:text-slate-400">Fullkomin greining á lánum, leigutekjum og fjárfestingu</p>
+            <p class="mt-1 text-xs text-green-600 dark:text-green-400">✓ Endurbætt útgáfa með leiðréttum útreikningum</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap justify-center gap-2 mb-6 no-print">
+            <button class="tab-btn active px-5 py-2.5 rounded-xl font-semibold text-sm" data-tab="loan">🏦 Lán</button>
+            <button class="tab-btn px-5 py-2.5 rounded-xl font-semibold text-sm bg-white dark:bg-slate-800 shadow" data-tab="rental">🏠 Leigutekjur</button>
+            <button class="tab-btn px-5 py-2.5 rounded-xl font-semibold text-sm bg-white dark:bg-slate-800 shadow" data-tab="investment">📈 Fjárfesting</button>
+        </div>
+
+        <!-- Hero Metrics Bar -->
+        <div class="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 rounded-2xl p-6 mb-6 shadow-xl">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <div class="text-center">
+                    <p class="text-blue-200 text-xs uppercase tracking-wider mb-1">Mánaðargreiðsla</p>
+                    <p id="heroPayment" class="text-2xl md:text-3xl font-bold text-white stat-number">-</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-blue-200 text-xs uppercase tracking-wider mb-1">Úr vasa / mán</p>
+                    <p id="heroCashflow" class="text-2xl md:text-3xl font-bold text-white stat-number">-</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-blue-200 text-xs uppercase tracking-wider mb-1">Heildarkostnaður</p>
+                    <p id="heroTotalCost" class="text-2xl md:text-3xl font-bold text-white stat-number">-</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-blue-200 text-xs uppercase tracking-wider mb-1">Lánstími</p>
+                    <p id="heroTerm" class="text-2xl md:text-3xl font-bold text-white stat-number">-</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+            
+            <!-- Left Column - Inputs -->
+            <div class="xl:col-span-4 space-y-6 no-print">
+                
+                <!-- Loan Tab Content -->
+                <div id="tab-loan" class="section-card bg-white dark:bg-slate-800 p-5 rounded-xl shadow-lg">
+                    <h2 class="text-xl font-semibold mb-5 border-b border-slate-200 dark:border-slate-700 pb-3 flex items-center gap-2">
+                        <span class="text-2xl">🏦</span> Lánsforsendur
+                    </h2>
+                    <div class="space-y-5">
+                        <div>
+                            <label for="loanType" class="block text-sm font-medium mb-1.5">Grunntegund Láns</label>
+                            <select id="loanType" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700">
+                                <option value="indexedAnnuity" selected>Verðtryggt (Jafnar greiðslur)</option>
+                                <option value="nonIndexedAnnuity">Óverðtryggt (Jafnar greiðslur)</option>
+                                <option value="nonIndexedEqualPrincipal">Óverðtryggt (Jafnar afborganir)</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="propertyPrice" class="block text-sm font-medium mb-1.5">Kaupverð eignar (ISK)</label>
+                            <input type="text" id="propertyPriceFormatted" value="60.000.000" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg text-lg font-semibold">
+                            <input type="hidden" id="propertyPrice" value="60000000">
+                            <input type="range" id="propertyPriceSlider" min="10000000" max="200000000" step="1000000" value="60000000" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                        </div>
+                        
+                        <div>
+                            <label for="downPaymentPercent" class="block text-sm font-medium mb-1.5">Útborgun</label>
+                            <div class="flex items-center gap-3">
+                                <input type="number" id="downPaymentPercent" value="20" min="0" max="100" class="w-20 p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg text-center font-semibold">
+                                <span class="text-lg font-bold">%</span>
+                                <span class="text-sm text-slate-500 dark:text-slate-400">= <span id="downPaymentAmount" class="font-semibold text-blue-600 dark:text-blue-400">12.000.000</span> kr.</span>
+                            </div>
+                            <input type="range" id="downPaymentSlider" min="0" max="50" step="1" value="20" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                            <div class="mt-3 bg-slate-100 dark:bg-slate-700 rounded-lg p-3">
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span>LTV (Loan-to-Value)</span>
+                                    <span id="ltvDisplay" class="font-bold">80%</span>
+                                </div>
+                                <div class="h-3 bg-slate-200 dark:bg-slate-600 rounded-full overflow-hidden">
+                                    <div id="ltvBar" class="h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-full transition-all duration-300" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="loanAmount" class="block text-sm font-medium mb-1.5">Höfuðstóll láns (ISK)</label>
+                            <input type="text" id="loanAmountFormatted" value="48.000.000" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-600 text-lg font-bold text-blue-700 dark:text-blue-400" readonly>
+                            <input type="hidden" id="loanAmount" value="48000000">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label for="loanFee" class="block text-sm font-medium mb-1.5">Lántökugj. (ISK)</label>
+                                <input type="number" id="loanFee" value="11950" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                            </div>
+                            <div>
+                                <label for="paymentFee" class="block text-sm font-medium mb-1.5">Mán.gjald (ISK)</label>
+                                <input type="number" id="paymentFee" value="140" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="interestRate" class="block text-sm font-medium mb-1.5">Ársvextir (%)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="interestRate" value="4.45" step="0.05" class="w-24 p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg font-semibold">
+                                <span class="text-2xl">%</span>
+                            </div>
+                            <input type="range" id="interestRateSlider" min="1" max="15" step="0.05" value="4.45" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                        </div>
+                        
+                        <div id="inflation-container">
+                            <label for="inflationRate" class="block text-sm font-medium mb-1.5">Áætluð ársverðbólga (%)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="inflationRate" value="4.16" step="0.01" class="w-24 p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg font-semibold">
+                                <span class="text-2xl">%</span>
+                            </div>
+                            <input type="range" id="inflationRateSlider" min="0" max="15" step="0.01" value="4.16" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                        </div>
+                        
+                        <div>
+                            <label for="loanTerm" class="block text-sm font-medium mb-1.5">Lánstími</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="loanTerm" value="30" min="1" max="40" class="w-24 p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg font-semibold text-lg">
+                                <span class="text-lg font-medium">ár</span>
+                            </div>
+                            <input type="range" id="loanTermSlider" min="5" max="40" step="1" value="30" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                        </div>
+                        
+                        <div class="pt-3 border-t border-slate-200 dark:border-slate-700">
+                            <label class="block text-sm font-medium mb-1.5">Áætluð greiðsla (1. mánuður)</label>
+                            <p id="minimumPaymentDisplay" class="text-2xl font-bold text-blue-700 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 p-4 rounded-xl text-center border border-blue-200 dark:border-blue-800">-</p>
+                        </div>
+                        
+                        <div class="pt-3 border-t border-slate-200 dark:border-slate-700">
+                            <label for="extraPayment" class="block text-sm font-medium mb-1.5">Aukagreiðsla/mán (ISK)</label>
+                            <input type="number" id="extraPayment" value="0" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                            <input type="range" id="extraPaymentSlider" min="0" max="500000" step="5000" value="0" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                            <div class="flex items-center gap-2 mt-2 p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                                <input type="checkbox" id="indexExtraPayment" class="w-4 h-4 rounded">
+                                <label for="indexExtraPayment" class="text-xs text-blue-700 dark:text-blue-300">Verðtryggja aukagreiðslu</label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="fixedPayment" class="block text-sm font-medium mb-1.5">Föst greiðsla/mán (ISK)</label>
+                            <input type="number" id="fixedPayment" value="0" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                            <input type="range" id="fixedPaymentSlider" min="0" max="1000000" step="10000" value="0" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Ef hærra en lágmark → þetta er greiðslan.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rental Tab Content -->
+                <div id="tab-rental" class="section-card bg-white dark:bg-slate-800 p-5 rounded-xl shadow-lg hidden">
+                    <h2 class="text-xl font-semibold mb-5 border-b border-slate-200 dark:border-slate-700 pb-3 flex items-center gap-2">
+                        <span class="text-2xl">🏠</span> Leigutekjur
+                    </h2>
+                    <div class="space-y-5">
+                        <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                            <input type="checkbox" id="enableRental" class="w-5 h-5 rounded">
+                            <label for="enableRental" class="font-medium">Virkja leigutekjur</label>
+                        </div>
+                        
+                        <div id="rentalFields" class="space-y-5 opacity-50 pointer-events-none">
+                            <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg border border-green-200 dark:border-green-700">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" id="applyRentToLoan" checked class="w-5 h-5 rounded">
+                                    <div>
+                                        <label for="applyRentToLoan" class="font-medium text-green-800 dark:text-green-300">Leiga fer á lánið</label>
+                                        <p class="text-xs text-green-600 dark:text-green-400">Umfram fer sem aukagreiðsla á höfuðstól</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="monthlyRent" class="block text-sm font-medium mb-1.5">Mánaðarleg leiga (ISK)</label>
+                                <input type="number" id="monthlyRent" value="250000" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg text-lg font-semibold">
+                                <input type="range" id="monthlyRentSlider" min="50000" max="1000000" step="5000" value="250000" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                            </div>
+
+                            <div>
+                                <label for="rentalDurationYears" class="block text-sm font-medium mb-1.5">Leigutímabil (ár)</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="rentalDurationYears" value="30" min="0" max="40" class="w-24 p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg font-semibold">
+                                    <span class="text-lg font-medium">ár</span>
+                                    <span class="text-xs text-slate-500 dark:text-slate-400">0 = allan lánstímann</span>
+                                </div>
+                                <input type="range" id="rentalDurationSlider" min="0" max="40" step="1" value="30" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                            </div>
+
+                            <div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                                <input type="checkbox" id="indexRent" checked class="w-5 h-5 rounded">
+                                <label for="indexRent" class="text-sm">Verðtryggja leigutekjur og kostnað</label>
+                            </div>
+
+                            <div>
+                                <label for="incomeTaxRate" class="block text-sm font-medium mb-1.5">Fjármagnstekjuskattur (%)</label>
+                                <input type="number" id="incomeTaxRate" value="11" step="0.1" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                            </div>
+                            
+                            <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+                                <h3 class="font-semibold text-sm mb-3">Fastur kostnaður</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label for="propertyTax" class="block text-sm font-medium mb-1.5">Fasteignagjöld/mán</label>
+                                        <input type="number" id="propertyTax" value="15000" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label for="insurance" class="block text-sm font-medium mb-1.5">Tryggingar/mán</label>
+                                        <input type="number" id="insurance" value="8000" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label for="maintenance" class="block text-sm font-medium mb-1.5">Viðhald/mán</label>
+                                        <input type="number" id="maintenance" value="10000" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label for="hoaFees" class="block text-sm font-medium mb-1.5">Húsfélags­gjöld/mán</label>
+                                        <input type="number" id="hoaFees" value="12000" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+                                <h3 class="font-semibold text-sm mb-3">Sérsniðinn kostnaður</h3>
+                                <div id="customCostsList" class="space-y-2 mb-3"></div>
+                                <div class="flex gap-2">
+                                    <input type="text" id="newCostName" placeholder="Heiti" class="flex-1 p-2 input-field border border-slate-300 dark:border-slate-600 rounded-lg text-sm">
+                                    <input type="number" id="newCostAmount" placeholder="Upphæð" class="w-24 p-2 input-field border border-slate-300 dark:border-slate-600 rounded-lg text-sm">
+                                    <button id="addCustomCost" class="px-3 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition">+</button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="vacancyRate" class="block text-sm font-medium mb-1.5">Lausahlutfall (%)</label>
+                                <input type="number" id="vacancyRate" value="5" step="1" min="0" max="50" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                            </div>
+                            
+                            <div class="pt-4 border-t border-slate-200 dark:border-slate-700">
+                                <h3 class="font-semibold text-sm mb-3">Sundurliðun kostnaðar</h3>
+                                <div id="costBreakdownBars" class="space-y-2"></div>
+                            </div>
+                            
+                            <div class="pt-3 border-t border-slate-200 dark:border-slate-700">
+                                <label class="block text-sm font-medium mb-1.5">Nettó leigutekjur (1. mánuður)</label>
+                                <p id="netRentalDisplay" class="text-2xl font-bold text-green-700 dark:text-green-400 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 p-4 rounded-xl text-center border border-green-200 dark:border-green-800">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investment Tab Content -->
+                <div id="tab-investment" class="section-card bg-white dark:bg-slate-800 p-5 rounded-xl shadow-lg hidden">
+                    <h2 class="text-xl font-semibold mb-5 border-b border-slate-200 dark:border-slate-700 pb-3 flex items-center gap-2">
+                        <span class="text-2xl">📈</span> Fjárfesting
+                    </h2>
+                    <div class="space-y-5">
+                        <div>
+                            <label for="appreciationRate" class="block text-sm font-medium mb-1.5">Árleg verðhækkun eignar (%)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="appreciationRate" value="3.5" step="0.1" class="w-24 p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg font-semibold">
+                                <span class="text-xl">%</span>
+                            </div>
+                            <input type="range" id="appreciationSlider" min="0" max="15" step="0.1" value="3.5" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                        </div>
+                        
+                        <div>
+                            <label for="holdingPeriod" class="block text-sm font-medium mb-1.5">Áætlaður eignatími</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="holdingPeriod" value="10" min="1" max="40" class="w-24 p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg font-semibold text-lg">
+                                <span class="text-lg font-medium">ár</span>
+                            </div>
+                            <input type="range" id="holdingPeriodSlider" min="1" max="40" step="1" value="10" class="mt-2 w-full bg-slate-200 dark:bg-slate-600">
+                        </div>
+                        
+                        <div>
+                            <label for="sellingCosts" class="block text-sm font-medium mb-1.5">Sölukostnaður (%)</label>
+                            <input type="number" id="sellingCosts" value="2.5" step="0.1" class="w-full p-2.5 input-field border border-slate-300 dark:border-slate-600 rounded-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario Management -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-lg no-print">
+                    <h3 class="font-semibold mb-3 flex items-center gap-2">💾 Vista forsendur</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="scenarioName" placeholder="Nafn á forsendum..." class="flex-1 p-2 input-field border border-slate-300 dark:border-slate-600 rounded-lg text-sm">
+                        <button id="saveScenario" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition">Vista</button>
+                    </div>
+                    <div id="savedScenarios" class="mt-3 space-y-2"></div>
+                </div>
+            </div>
+
+            <!-- Right Column - Results -->
+            <div class="xl:col-span-8 space-y-6">
+                
+                <!-- Summary Cards -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-lg">
+                    <h2 class="text-xl font-semibold mb-4">Yfirlit lánaáætlana</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="summary-card visual-card p-4 bg-slate-50 dark:bg-slate-700 rounded-xl border border-slate-200 dark:border-slate-600">
+                            <h3 class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">📋 Hefðbundin</h3>
+                            <div id="standard-summary" class="mt-3 space-y-1.5 text-sm"></div>
+                        </div>
+                        <div class="summary-card visual-card p-4 bg-teal-50 dark:bg-teal-900/30 rounded-xl border border-teal-200 dark:border-teal-800">
+                            <h3 class="font-bold text-teal-700 dark:text-teal-300 flex items-center gap-2">🔄 Óverðtryggt</h3>
+                            <div id="non-indexed-summary" class="mt-3 space-y-1.5 text-sm"></div>
+                        </div>
+                        <div class="summary-card visual-card p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-200 dark:border-blue-800">
+                            <h3 class="font-bold text-blue-700 dark:text-blue-300 flex items-center gap-2">🚀 Flýtiáætlun</h3>
+                            <div id="extra-payment-summary" class="mt-3 space-y-1.5 text-sm"></div>
+                        </div>
+                    </div>
+                    <div id="savings-summary" class="mt-4 p-4 rounded-lg"></div>
+                </div>
+
+                <!-- Cash Flow Summary -->
+                <div id="cashflowSection" class="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-lg hidden">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">💵 Sjóðstreymisgreining</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <h3 class="font-medium text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tekjur og gjöld</h3>
+                            <div class="flex justify-between p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
+                                <span class="text-sm">Brúttó leigutekjur</span>
+                                <span id="cfGrossRent" class="font-semibold text-green-700 dark:text-green-400">-</span>
+                            </div>
+                            <div class="flex justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                                <span class="text-sm">Skattur (22% af brúttó)</span>
+                                <span id="cfTax" class="font-semibold text-slate-600 dark:text-slate-400">-</span>
+                            </div>
+                            <div class="flex justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                                <span class="text-sm">Lausaafsláttur</span>
+                                <span id="cfVacancy" class="font-semibold text-slate-600 dark:text-slate-400">-</span>
+                            </div>
+                            <div class="flex justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                                <span class="text-sm">Rekstrarkostnaður</span>
+                                <span id="cfOperating" class="font-semibold text-slate-600 dark:text-slate-400">-</span>
+                            </div>
+                            <div class="flex justify-between p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg border-2 border-blue-300 dark:border-blue-600">
+                                <span class="text-sm font-medium">= Nettó leigutekjur</span>
+                                <span id="cfNetRent" class="font-bold text-lg text-blue-700 dark:text-blue-400">-</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="font-medium text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider">Niðurstaða</h3>
+                            <div class="flex justify-between p-3 bg-red-50 dark:bg-red-900/30 rounded-lg">
+                                <span class="text-sm">Fer á lánið</span>
+                                <span id="cfMortgage" class="font-semibold text-red-700 dark:text-red-400">-</span>
+                            </div>
+                            <div class="flex justify-between p-4 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-lg border-2 border-purple-300 dark:border-purple-600">
+                                <span class="text-sm font-medium">Þú borgar úr vasa</span>
+                                <span id="cfNet" class="font-bold text-xl">-</span>
+                            </div>
+                            <div class="flex justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                                <span class="text-sm">Á ári</span>
+                                <span id="cfAnnual" class="font-bold">-</span>
+                            </div>
+                            <div id="breakEvenInfo" class="p-4 bg-amber-50 dark:bg-amber-900/30 rounded-lg border border-amber-200 dark:border-amber-700">
+                                <p class="text-sm text-amber-700 dark:text-amber-400">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investment Dashboard -->
+                <div id="investmentDashboard" class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg">
+                    <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">📊 Fjárfestingaryfirlit</h2>
+                    
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="visual-card p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl border border-green-200 dark:border-green-800">
+                            <span class="text-xs text-green-700 dark:text-green-400 uppercase tracking-wider">Verðmæti</span>
+                            <p id="invFutureValue" class="text-xl font-bold text-green-800 dark:text-green-300 stat-number">-</p>
+                            <p class="text-xs text-green-600 dark:text-green-500 mt-1">Eftir <span id="invYearsLabel1">10</span> ár</p>
+                        </div>
+                        
+                        <div class="visual-card p-4 bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
+                            <span class="text-xs text-purple-700 dark:text-purple-400 uppercase tracking-wider">Eigið fé</span>
+                            <p id="invEquityGain" class="text-xl font-bold text-purple-800 dark:text-purple-300 stat-number">-</p>
+                            <p class="text-xs text-purple-600 dark:text-purple-500 mt-1">Uppsöfnuð aukning</p>
+                        </div>
+                        
+                        <div class="visual-card p-4 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+                            <span class="text-xs text-blue-700 dark:text-blue-400 uppercase tracking-wider">Cash-on-Cash</span>
+                            <p id="invCoC" class="text-xl font-bold text-blue-800 dark:text-blue-300 stat-number">-</p>
+                            <p class="text-xs text-blue-600 dark:text-blue-500 mt-1">Árleg ávöxtun</p>
+                        </div>
+                        
+                        <div class="visual-card p-4 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
+                            <span class="text-xs text-amber-700 dark:text-amber-400 uppercase tracking-wider">Hagnaður</span>
+                            <p id="invTotalProfit" class="text-xl font-bold text-amber-800 dark:text-amber-300 stat-number">-</p>
+                            <p class="text-xs text-amber-600 dark:text-amber-500 mt-1">Við sölu</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-50 dark:bg-slate-700/50 rounded-xl p-5 mb-6">
+                        <h3 class="font-semibold text-sm mb-4">Fjárfestingartímalína</h3>
+                        <div id="investmentTimeline" class="relative"></div>
+                    </div>
+                    
+                    <div class="bg-slate-50 dark:bg-slate-700/50 rounded-xl p-5">
+                        <h3 class="font-semibold text-sm mb-4">Eiginfjáruppbygging</h3>
+                        <div id="equityProgressSection" class="space-y-4"></div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg">
+                        <h2 class="text-lg font-semibold mb-4">Þróun eftirstöðva</h2>
+                        <div class="chart-container-large">
+                            <canvas id="balanceChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg">
+                            <h2 class="text-lg font-semibold mb-4">Greiðsludreifing</h2>
+                            <div class="chart-container">
+                                <canvas id="paymentBreakdownChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg">
+                            <h2 class="text-lg font-semibold mb-4">Eiginfjárþróun</h2>
+                            <div class="chart-container">
+                                <canvas id="equityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg">
+                        <h2 class="text-lg font-semibold mb-4">Heildarkostnaður sundurliðaður</h2>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="chart-container">
+                                <canvas id="costPieChart"></canvas>
+                            </div>
+                            <div id="costBreakdownDetail" class="flex flex-col justify-center space-y-3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="cashflowChartContainer" class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hidden">
+                    <h2 class="text-lg font-semibold mb-4">Sjóðstreymi yfir tíma</h2>
+                    <div class="chart-container-large">
+                        <canvas id="cashflowChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Detailed Schedule -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-lg print-break">
+                    <h2 class="text-xl font-semibold mb-4">Ítarleg greiðsluáætlun</h2>
+                    <div class="flex flex-wrap items-center gap-4 mb-4 border-b border-slate-200 dark:border-slate-700 pb-4 no-print">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="scheduleView" value="standard" checked class="w-4 h-4">
+                            <span class="text-sm font-medium">Hefðbundin</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="scheduleView" value="extra" class="w-4 h-4">
+                            <span class="text-sm font-medium">Flýtiáætlun</span>
+                        </label>
+                        <div class="flex-1"></div>
+                        <label class="flex items-center gap-2 text-sm">
+                            <span>Sýna</span>
+                            <select id="scheduleDisplayCount" class="p-1.5 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-700 text-sm">
+                                <option value="12">12 línur</option>
+                                <option value="60" selected>60 línur</option>
+                                <option value="120">120 línur</option>
+                                <option value="all">Allar</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-slate-100 dark:bg-slate-700">
+                                <tr>
+                                    <th class="p-2.5 text-left font-semibold text-slate-600 dark:text-slate-300">#</th>
+                                    <th class="p-2.5 text-left font-semibold text-slate-600 dark:text-slate-300">Gjalddagi</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Verðbætur</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Afborgun</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Vextir</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Kostnaður</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Lágmarksgreiðsla</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Aukagreiðsla</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Leiga á lán</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Umfram leiga</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Notandi borgar</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Heildargreiðsla</th>
+                                    <th class="p-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">Eftirstöðvar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailed-table-body" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-8 text-center text-sm text-slate-500 dark:text-slate-400 no-print">
+            <p>Reiknivélin gefur áætlanir eingöngu og er ekki fjármálaráðgjöf.</p>
+            <p class="mt-1">© 2025 Íbúðalánareiknir Pro+ - Endurbætt útgáfa</p>
+        </footer>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/loan-calculator.js"></script>
+    <script src="js/rental-calculator.js"></script>
+    <script src="js/ui-state.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

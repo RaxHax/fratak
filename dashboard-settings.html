@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="is" class="dark">
+
+<!DOCTYPE html>
+<html lang="is" class="dark">
+
+<head>
+  <meta charset="utf-8">
+  <title>Stillingar - FRAMMTAK</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/shitboxs-ultra-awesome-site.webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/theme.css" rel="stylesheet" type="text/css">
+  <link href="css/magic.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script
+    type="text/javascript">WebFont.load({ google: { families: ["PT Sans:400,400italic,700,700italic", "Archivo:regular,500,600,700"] } });</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Archivo', 'sans-serif'],
+            display: ['Clash Display', 'PT Sans', 'sans-serif']
+          },
+          colors: {
+            glass: {
+              100: 'rgba(255, 255, 255, 0.05)',
+              200: 'rgba(255, 255, 255, 0.1)'
+            },
+            brand: {
+              base: '#050505',
+              blue: '#2d29ec',
+              neon: '#38bdf8',
+              purple: '#c084fc',
+              green: '#4ade80'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-slate-950 text-slate-200 overflow-hidden font-sans relative">
+  <!-- Background Pattern -->
+  <div class="fixed inset-0 z-0 pointer-events-none bg-grid-pattern opacity-20"></div>
+  <div class="fixed inset-0 z-0 pointer-events-none bg-dot-pattern opacity-30 mix-blend-overlay"></div>
+
+
+  <div id="mobile-overlay" class="fixed inset-0 bg-black/70 hidden z-40"></div>
+
+  <div class="flex h-screen overflow-hidden">
+    <aside id="sidebar"
+      class="fixed inset-y-0 left-0 z-50 w-72 -translate-x-full md:translate-x-0 md:static md:w-72 bg-slate-900 border-r border-slate-800 flex flex-col transition-transform duration-300">
+      <div class="p-6 border-b border-white/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-blue to-brand-purple flex items-center justify-center shadow-lg shadow-brand-blue/30">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
+              </path>
+            </svg>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 uppercase tracking-[0.3em]">Frammtak</p>
+            <p class="text-lg font-bold text-white">Mælaborð</p>
+          </div>
+        </div>
+        <button id="close-sidebar" class="md:hidden text-slate-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="flex-1 px-4 py-6 space-y-2" id="sidebar-nav">
+        <a href="dashboard.html"
+          class="nav-item w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3 group"
+          data-nav="overview">
+          <span
+            class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+            <img src="https://img.icons8.com/fluent/96/home.png" alt="Yfirlit"
+              class="w-5 h-5 object-contain opacity-80 group-hover:opacity-100 transition-opacity">
+          </span>
+          <span class="font-medium">Yfirlit</span>
+        </a>
+        <a href="dashboard-accounts.html"
+          class="nav-item w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3 group"
+          data-nav="accounts">
+          <span
+            class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+            <img src="https://img.icons8.com/fluent/96/wallet.png" alt="Reikningar"
+              class="w-5 h-5 object-contain opacity-80 group-hover:opacity-100 transition-opacity">
+          </span>
+          <span class="font-medium">Reikningar</span>
+        </a>
+        <a href="dashboard-calculator.html"
+          class="nav-item w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3 group"
+          data-nav="calculator">
+          <span
+            class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+            <img src="https://img.icons8.com/fluent/96/calculator.png" alt="Lánareiknir"
+              class="w-5 h-5 object-contain opacity-80 group-hover:opacity-100 transition-opacity">
+          </span>
+          <span class="font-medium">Lánareiknir</span>
+        </a>
+        <a href="dashboard-settings.html"
+          class="nav-item w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3 group"
+          data-nav="settings">
+          <span
+            class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+            <img src="https://img.icons8.com/fluent/96/settings.png" alt="Stillingar"
+              class="w-5 h-5 object-contain opacity-80 group-hover:opacity-100 transition-opacity">
+          </span>
+          <span class="font-medium">Stillingar</span>
+        </a>
+      </nav>
+      <div class="p-6 border-t border-white/10">
+        <div class="flex items-center gap-3 mb-4">
+          <div
+            class="h-11 w-11 rounded-full bg-gradient-to-br from-slate-700 to-slate-600 border border-white/10 overflow-hidden">
+            <img src="https://ui-avatars.com/api/?name=Frammtak&background=random" alt="User"
+              class="w-full h-full object-cover">
+          </div>
+          <div class="overflow-hidden">
+            <p class="text-sm font-bold text-white truncate" id="sidebar-user-name">Notandi</p>
+            <p class="text-xs text-slate-400 truncate" id="sidebar-user-email">notandi@frammtak.is</p>
+          </div>
+        </div>
+        <button id="logout-btn"
+          class="w-full flex items-center justify-center gap-2 p-2 rounded-lg hover:bg-red-500/10 hover:text-red-300 text-slate-400 transition-colors text-xs font-semibold uppercase tracking-wider">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+          Skrá út
+        </button>
+      </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto relative">
+      <header class="sticky top-0 z-30 bg-black/60 backdrop-blur-md border-b border-white/10">
+        <div class="px-6 py-4 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <button id="mobile-nav-toggle"
+              class="md:hidden w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+              <svg class="w-5 h-5 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                </path>
+              </svg>
+            </button>
+            <div>
+              <p class="text-xs uppercase tracking-[0.3em] text-slate-500">Stillingar</p>
+              <h1 class="text-xl md:text-2xl font-bold text-white">Góðan dag, <span class="ft-gradient-text"
+                  id="user-greeting-name">vinur</span></h1>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div id="last-sync"
+              class="hidden md:flex items-center gap-2 px-3 py-2 rounded-full bg-white/5 text-xs text-slate-400 border border-white/5">
+              <span class="h-2 w-2 rounded-full bg-brand-neon shadow-[0_0_12px_rgba(56,189,248,0.6)]"></span>
+              <span id="last-sync-text">Uppfært: --</span>
+            </div>
+            <button id="refresh-data"
+              class="px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/5 hover:bg-white/10 transition flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 4v6h6M20 20v-6h-6M6.5 18.5a8 8 0 0012-10M17.5 5.5a8 8 0 00-12 10"></path>
+              </svg>
+              Endurhlaða
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="p-6 space-y-10">
+
+        <section id="section-settings" data-section="settings" class="space-y-6">
+          <div>
+            <h2 class="ft-heading text-3xl text-white">Stillingar</h2>
+            <p class="text-sm text-slate-400 mt-2">Uppfærðu prófíl og markmið.</p>
+          </div>
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div class="ft-glass magic-card p-6 rounded-2xl">
+              <h3 class="text-lg font-bold text-white mb-4">Prófíl</h3>
+              <form id="settings-form" class="space-y-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Fullt nafn</label>
+                  <input type="text" id="settings-name" class="ft-input w-full px-4 py-3 rounded-xl text-sm">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Netfang</label>
+                  <input type="email" id="settings-email" class="ft-input w-full px-4 py-3 rounded-xl text-sm" disabled>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Sparnaðarmarkmið</label>
+                    <input type="number" id="settings-target" class="ft-input w-full px-4 py-3 rounded-xl text-sm"
+                      placeholder="12000000">
+                  </div>
+                  <div>
+                    <label
+                      class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Gjaldmiðill</label>
+                    <select id="settings-currency" class="ft-input w-full px-4 py-3 rounded-xl text-sm">
+                      <option value="ISK">ISK</option>
+                      <option value="EUR">EUR</option>
+                      <option value="USD">USD</option>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit"
+                  class="w-full bg-brand-neon text-black font-bold py-3 rounded-xl uppercase tracking-wider text-xs">Vista
+                  stillingar</button>
+              </form>
+            </div>
+            <div class="ft-card magic-card p-6 rounded-2xl border border-white/5">
+              <h3 class="text-lg font-bold text-white">Öryggi</h3>
+              <p class="text-sm text-slate-400 mt-2">Breyttu lykilorði eða endurstilltu aðgang með öruggum hætti.</p>
+              <a href="auth.html"
+                class="inline-flex mt-4 px-4 py-2 rounded-full text-xs uppercase tracking-wider bg-white/10 text-white hover:bg-white/20 transition">Opna
+                aðgang</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    localStorage.setItem('darkMode', 'true');
+    document.documentElement.classList.add('dark');
+  </script>
+  <script src="js/dashboard/shared.js"></script>
+  <script src="js/dashboard/settings.js"></script>
+  <script src="js/magic.js"></script>
+</body>
+
+</html>
